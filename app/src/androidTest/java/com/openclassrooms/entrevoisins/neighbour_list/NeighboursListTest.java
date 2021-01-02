@@ -84,8 +84,13 @@ public class NeighboursListTest {
 
     @Test
     public void displayNeighboursActivity_isLaunched() {
-        onView(allOf(withId(R.id.list_neighbours), hasFocus()))
+        onView(allOf(withId(R.id.list_neighbours), isDisplayed()))
                 .perform(RecyclerViewActions.actionOnItemAtPosition(0, new ClickOnNeighbour()));
+        try {
+            Thread.sleep(3000);
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
         onView(withId(R.id.name_onPic)).check(matches(isDisplayed()));
     }
 
