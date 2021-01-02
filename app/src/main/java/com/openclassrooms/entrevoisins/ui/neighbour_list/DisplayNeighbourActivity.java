@@ -31,7 +31,7 @@ public class DisplayNeighbourActivity extends AppCompatActivity {
     @BindView(R.id.about_me_des)
     TextView about_me_des;
     @BindView(R.id.favorite)
-    FloatingActionButton favorite;
+    FloatingActionButton favoriteButton;
     @BindView(R.id.neighbourAvatarDisplay)
     ImageView neighbourAvatarDisplay;
     @BindView(R.id.back_button)
@@ -71,9 +71,9 @@ public class DisplayNeighbourActivity extends AppCompatActivity {
 
     void changeFavoriteStar(boolean star){
         if (star)
-            favorite.setImageDrawable(ContextCompat.getDrawable(getApplicationContext(), R.drawable.ic_star_white_24dp));
+            favoriteButton.setImageDrawable(ContextCompat.getDrawable(getApplicationContext(), R.drawable.ic_star_white_24dp));
         else
-            favorite.setImageDrawable(ContextCompat.getDrawable(getApplicationContext(), R.drawable.ic_star_border_white_24dp));
+            favoriteButton.setImageDrawable(ContextCompat.getDrawable(getApplicationContext(), R.drawable.ic_star_border_white_24dp));
     }
 
 

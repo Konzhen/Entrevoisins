@@ -77,7 +77,7 @@ public class NeighboursListTest {
         onView(allOf(withId(R.id.list_neighbours), hasFocus())).check(withItemCount(ITEMS_COUNT));
         // When perform a click on a delete icon
         onView(allOf(withId(R.id.list_neighbours), hasFocus()))
-                .perform(RecyclerViewActions.actionOnItemAtPosition(1, new DeleteViewAction()));
+                .perform(RecyclerViewActions.actionOnItemAtPosition(4, new DeleteViewAction()));
         // Then : the number of element is 11
         onView(allOf(withId(R.id.list_neighbours), hasFocus())).check(withItemCount(ITEMS_COUNT-1));
     }
@@ -85,8 +85,8 @@ public class NeighboursListTest {
     @Test
     public void displayNeighboursActivity_isLaunched() {
         onView(allOf(withId(R.id.list_neighbours), hasFocus()))
-                .perform(RecyclerViewActions.actionOnItemAtPosition(3, new ClickOnNeighbour()));
-        onView(allOf(withId(R.id.list_neighbours), hasFocus())).check(matches(isDisplayed()));
+                .perform(RecyclerViewActions.actionOnItemAtPosition(0, new ClickOnNeighbour()));
+        onView(withId(R.id.name_onPic)).check(matches(isDisplayed()));
     }
 
     @Test
@@ -97,7 +97,7 @@ public class NeighboursListTest {
     @Test
     public void onlyFavorites_areDisplayed() {
         onView(allOf(withId(R.id.list_neighbours), hasFocus()))
-                .perform(RecyclerViewActions.actionOnItemAtPosition(0, new ClickOnNeighbour())); //click sur un neighbour
+                .perform(RecyclerViewActions.actionOnItemAtPosition(1, click())); //click sur un neighbour
         onView(withId(R.id.favorite))
                 .perform(click()); //click sur l'étoile
         onView(withId(R.id.back_button))
@@ -107,7 +107,7 @@ public class NeighboursListTest {
         onView(allOf(withId(R.id.list_neighbours), hasFocus()))
                 .check(matches(hasChildCount(1))); //check si le neighbour est présent
         onView(allOf(withId(R.id.list_neighbours), hasFocus()))
-                .perform(RecyclerViewActions.actionOnItemAtPosition(0, new ClickOnNeighbour())); //click sur un neighbour
+                .perform(RecyclerViewActions.actionOnItemAtPosition(1, click())); //click sur un neighbour
         onView(withId(R.id.favorite))
                 .perform(click()); //click sur l'étoile
         onView(withId(R.id.back_button))

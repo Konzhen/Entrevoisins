@@ -9,6 +9,7 @@ import com.openclassrooms.entrevoisins.R;
 import org.hamcrest.Matcher;
 
 public class ClickOnNeighbour implements ViewAction {
+
     @Override
     public Matcher<View> getConstraints() {
         return null;
@@ -16,12 +17,13 @@ public class ClickOnNeighbour implements ViewAction {
 
     @Override
     public String getDescription() {
-        return "Click on specific neighbour";
+        return null;
     }
 
     @Override
     public void perform(UiController uiController, View view) {
         View button = view.findViewById(R.id.item_list_avatar);
+        // Maybe check for null
         button.performClick();
     }
 }
