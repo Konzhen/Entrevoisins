@@ -9,7 +9,6 @@ import com.openclassrooms.entrevoisins.R;
 import com.openclassrooms.entrevoisins.di.DI;
 import com.openclassrooms.entrevoisins.service.NeighbourApiService;
 import com.openclassrooms.entrevoisins.ui.neighbour_list.ListNeighbourActivity;
-import com.openclassrooms.entrevoisins.utils.ClickOnNeighbour;
 import com.openclassrooms.entrevoisins.utils.DeleteViewAction;
 
 import org.junit.Before;
@@ -18,6 +17,7 @@ import org.junit.Test;
 import org.junit.runner.RunWith;
 
 import static android.support.test.espresso.Espresso.onView;
+import static android.support.test.espresso.Espresso.pressBack;
 import static android.support.test.espresso.action.ViewActions.click;
 import static android.support.test.espresso.assertion.ViewAssertions.matches;
 import static android.support.test.espresso.matcher.ViewMatchers.hasChildCount;
@@ -25,6 +25,7 @@ import static android.support.test.espresso.matcher.ViewMatchers.hasFocus;
 import static android.support.test.espresso.matcher.ViewMatchers.hasMinimumChildCount;
 import static android.support.test.espresso.matcher.ViewMatchers.isDisplayed;
 import static android.support.test.espresso.matcher.ViewMatchers.withId;
+import static android.support.test.espresso.matcher.ViewMatchers.withText;
 import static com.openclassrooms.entrevoisins.utils.RecyclerViewItemCountAssertion.withItemCount;
 import static org.hamcrest.Matchers.allOf;
 import static org.hamcrest.core.IsNull.notNullValue;
@@ -53,9 +54,6 @@ public class NeighboursListTest {
         mActivity = mActivityRule.getActivity();
         assertThat(mActivity, notNullValue());
         service = DI.getNewInstanceApiService();
-        service.getNeighbours().get(0).setFavorite(true);
-        service.getNeighbours().get(6).setFavorite(true);
-        service.getNeighbours().get(9).setFavorite(true);
     }
 
     /**
@@ -84,19 +82,17 @@ public class NeighboursListTest {
 
     @Test
     public void displayNeighboursActivity_isLaunched() {
-        onView(allOf(withId(R.id.list_neighbours), isDisplayed()))
-                .perform(RecyclerViewActions.actionOnItemAtPosition(0, new ClickOnNeighbour()));
-        try {
-            Thread.sleep(3000);
-        } catch (InterruptedException e) {
-            e.printStackTrace();
-        }
+        onView(allOf(withId(R.id.list_neighbours), hasFocus()))
+                .perform(RecyclerViewActions.actionOnItemAtPosition(4, click()));
         onView(withId(R.id.name_onPic)).check(matches(isDisplayed()));
     }
 
     @Test
     public void neighbourName_isDisplayed() {
-        assertThat(allOf(withId(R.id.list_neighbours), hasFocus()), notNullValue());
+        onView(allOf(withId(R.id.list_neighbours), hasFocus()))
+                .perform(RecyclerViewActions.actionOnItemAtPosition(4, click()));
+        onView(withId(R.id.name_onPic)).check(matches(withText(service.getNeighbours().get(4).getName())));
+
     }
 
     @Test
@@ -105,20 +101,16 @@ public class NeighboursListTest {
                 .perform(RecyclerViewActions.actionOnItemAtPosition(1, click())); //click sur un neighbour
         onView(withId(R.id.favorite))
                 .perform(click()); //click sur l'étoile
-        onView(withId(R.id.back_button))
-                .perform(click()); //retour arrière
-        onView(withId(R.id.tabItem2))
-                .perform(click()); //click sur le second onglet
+        pressBack();
+        onView(withText(R.string.tab_favorites_title)).perform(click());
         onView(allOf(withId(R.id.list_neighbours), hasFocus()))
                 .check(matches(hasChildCount(1))); //check si le neighbour est présent
         onView(allOf(withId(R.id.list_neighbours), hasFocus()))
-                .perform(RecyclerViewActions.actionOnItemAtPosition(1, click())); //click sur un neighbour
+                .perform(RecyclerViewActions.actionOnItemAtPosition(0, click())); //click sur un neighbour
         onView(withId(R.id.favorite))
                 .perform(click()); //click sur l'étoile
-        onView(withId(R.id.back_button))
-                .perform(click()); //retour arrière
-        onView(withId(R.id.tabItem2))
-                .perform(click()); //click sur le second onglet
+        pressBack();
+        onView(withText(R.string.tab_favorites_title)).perform(click());
         onView(allOf(withId(R.id.list_neighbours), hasFocus()))
                 .check(matches(hasChildCount(0))); //puis l'enlever
 

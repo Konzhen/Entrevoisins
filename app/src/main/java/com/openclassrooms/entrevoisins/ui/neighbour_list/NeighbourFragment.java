@@ -108,7 +108,8 @@ public class NeighbourFragment extends Fragment {
     public void onClickItemView(DisplayNeighbourEvent event) {
         Intent intent = new Intent(getContext(),DisplayNeighbourActivity.class );
         intent.putExtra("neighbour", event.neighbour);
-        startActivity(intent);
+        if (favorite)
+            startActivity(intent);
     }
 
 }
